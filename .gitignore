@@ -1,1 +1,12 @@
+# Sensitive credentials and authentication tokens
+cookies.txt
 
+# Local data cache
+assignments.json
+
+# macOS system files (if developing on a Mac)
+.DS_Store
+
+# Log files and temporary Bash files
+*.log
+*~
