@@ -1,3 +1,5 @@
-# Rename this file to cookies.txt and replace the values below with your actual cookies
-d2lSessionVal="YOUR_SESSION_VALUE_HERE"
-d2lSecureSessionVal="YOUR_SECURE_SESSION_VALUE_HERE"
+# Brightspace Authentication Cookies
+# Rename this file to cookies.txt and paste your extracted cookie string below.
+# Make sure cookies.txt is in your .gitignore file.
+
+FULL_COOKIE_STRING="PASTE_YOUR_COPIED_COOKIE_STRING_HERE"
