@@ -1,0 +1,3 @@
+# Rename this file to cookies.txt and replace the values below with your actual cookies
+d2lSessionVal="YOUR_SESSION_VALUE_HERE"
+d2lSecureSessionVal="YOUR_SECURE_SESSION_VALUE_HERE"
