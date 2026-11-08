@@ -27,7 +27,19 @@ I'm trying to solve the hassle of having to log in to Brightspace multiple times
 * **External Source**: The Brightspace REST API
   - Will be accessed using curl get requests using the d2LSessionVal and d2LSecureSessionVal cookies.
  
+## Setup Instructions
+1. Log into Brightspace on your browser.
+2. Open the Developer Tools (**F12** or right-click and choose **Inspect**), navigate to the **Network** tab, and refresh the page.
+3. Switch to the **Console** tab, type `fetch('/d2l/api/lp/1.33/users/whoami')`, and hit Enter.
+4. Go back to the **Network** tab and click the **Fetch/XHR** filter.
+5. Right-click the `whoami` request that appears, hover over **Copy**, and select **Copy as cURL (bash)**.
+6. Paste that text into a notepad. Look for the massive string next to the `-b` flag. Copy only the text *inside* the single quotes (`'...'`). This is your `FULL_COOKIE_STRING`.
+7. Rename the `cookies.example.txt` file in this repository to `cookies.txt` and paste your string into the template.
+
+
+
 ## Future Plans
+* - [ ] **Browser Extension Support**: Parse Netscape-formatted cookie files exported from browser extensions so that the user doesn't have to manually paste session cookies into cookies.txt
 * - [ ] **Color coding**: Color coded terminal output based on urgency (Ex: Red for due in 24 hrs)
 * - [ ] **Due date countdowns**: Text displaying "Due in X days" next to each upcoming assignment instead of the actual due date.
 * - [ ] **Auto run**: Make the script run automatically when the terminal is opened
