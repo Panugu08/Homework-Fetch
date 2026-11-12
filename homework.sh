@@ -32,5 +32,15 @@ if [ ! -f "assignments.json" ]; then
         # Adds a delay to each request so that Brightspace doesn't get bombarded by requests and temporarily ban us
         sleep 0.5
     done 
-fi
+fi 
+
+# Grabs the current date so it can be used to filter out assignments past their due date
+CURRENT_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# Gets all of the assignments in the assignments.json file
+# Removes the quotes from text in the json file, passes in the Current date as an argument, 
+# selects assignments that are not past due, and then sorts all of them by due date
+jq -r --arg now "$CURRENT_DATE" '.[] | select(.EventType == 6 and .EndDateTime != null and .EndDateTime > $now) | "\(.EndDateTime)  |  \(.Title)"' assignments.json | sort
+
+
     
