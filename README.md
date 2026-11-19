@@ -45,7 +45,7 @@ I'm trying to solve the hassle of having to log in to Brightspace multiple times
 ## Future Plans
 
 - - [ ] **Browser Extension Support**: Parse Netscape-formatted cookie files exported from browser extensions so that the user doesn't have to manually paste session cookies into cookies.txt
-- - [ ] **Color coding**: Color coded terminal output based on urgency (Ex: Red for due in 24 hrs)
+- - [x] **Color coding**: Color coded terminal output based on urgency (Ex: Red for due in 24 hrs)
 - - [ ] **Due date countdowns**: Text displaying "Due in X days" next to each upcoming assignment instead of the actual due date.
 - - [ ] **Auto run**: Make the script run automatically when the terminal is opened
 
