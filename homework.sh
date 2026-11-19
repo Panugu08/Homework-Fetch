@@ -51,19 +51,27 @@ else
 fi
 
 
-# Gets assignments, sorts them chronologically, and converts UTC dates to the local timezone
-UPCOMING_ASSIGNMENTS=$(jq -r --arg now "$CURRENT_DATE" --arg max "$MAX_DATE" '[ .[] | select(.EventType == 6 and .EndDateTime != null and .EndDateTime > $now and .EndDateTime <= $max) ] | sort_by(.EndDateTime)[] | "\(.EndDateTime[0:19] + "Z" | fromdateiso8601 | localtime | strftime("%Y-%m-%d at %I:%M %p"))  |  \(.Title)"' assignments.json)
+# Gets assignments, sorts them chronologically, and applies color-coding based on urgency
+UPCOMING_ASSIGNMENTS=$(jq -r -s \
+    --arg now "$CURRENT_DATE" \
+    --arg max "$MAX_DATE" \
+    '[ .[][] | select(.EventType == 6 and .EndDateTime != null and .EndDateTime > $now and .EndDateTime <= $max) ] | sort_by(.EndDateTime)[] | 
+    (.EndDateTime[0:19] + "Z" | fromdateiso8601) as $due | 
+    ($now[0:19] + "Z" | fromdateiso8601) as $curr | 
+    ($due - $curr) as $diff | 
+    (if $diff <= 86400 then "\u001b[38;2;204;119;102m" elif $diff <= 172800 then "\u001b[38;2;215;153;33m" else "\u001b[38;2;142;158;114m" end) as $color | 
+    "\($color)\(.EndDateTime[0:19] + "Z" | fromdateiso8601 | localtime | strftime("%B %d at %I:%M %p"))\u001b[0m  |  \u001b[1;90m\(.Title)\u001b[0m"' \
+    assignments.json)
 
-echo ""
-echo "Upcoming Assignments (Next 7 Days):"
-echo "-------------------------------------"
+echo -e "\n\033[1;38;2;214;180;131mUpcoming Assignments (Next 7 Days):\033[0m"
+echo -e "-------------------------------------"
 
 # Tells the user they have no upcoming assignments or prints out a list of their upcoming assignments
 if [ -z "$UPCOMING_ASSIGNMENTS" ]; then
-    echo "No upcoming assignments!"
+    echo -e "\033[1;32mNo upcoming assignments due on Brightspace in the next 7 days!\033[0m"
 else
-    echo "$UPCOMING_ASSIGNMENTS"
+    echo -e "$UPCOMING_ASSIGNMENTS"
 fi
 
-echo "-------------------------------------"
+echo -e "-------------------------------------"
 echo ""
