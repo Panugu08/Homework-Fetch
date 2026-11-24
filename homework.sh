@@ -50,7 +50,7 @@ fi
 # This ensures we don't get things that are not assignments like lectures and announcements.
 # 2. Clean up date formats and turn them into numbers so we can easily find out
 # how long before the assignment is due and use that to apply color coding
-# 3. Calculates the due date counter by using the amount of time before an assignment is due
+# 3. Calculates the due date counter by using the amount of time before the assignment is due
 UPCOMING_ASSIGNMENTS=$(jq -r -s \
     --arg now "$CURRENT_DATE" \
     --arg max "$MAX_DATE" \
@@ -60,7 +60,7 @@ UPCOMING_ASSIGNMENTS=$(jq -r -s \
     ($due - $curr) as $diff | 
     (if $diff <= 86400 then "\u001b[38;2;204;119;102m" elif $diff <= 172800 then "\u001b[38;2;215;153;33m" else "\u001b[38;2;142;158;114m" end) as $color | 
     (if $diff < 3600 then "Due in < 1 hour"
-    elif $diff < 86400 then "Due in \($diff / 3600 | floor) hours"
+    elif $diff < 86400 then "Due in \($diff / 3600 | ceil) hours"
     elif $diff < 172800 then "Due in 1 day"
     else "Due in \($diff / 86400 | ceil) days" end) as $countdown | 
     "\($color)\($countdown)\u001b[0m  |  \u001b[1;38;2;235;219;178m\(.Title)\u001b[0m \u001b[38;2;150;150;150m(\(.EndDateTime[0:19] + "Z" | fromdateiso8601 | localtime | strftime("%B %d at %I:%M %p")))\u001b[0m"' \
