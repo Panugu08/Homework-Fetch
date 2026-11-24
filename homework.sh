@@ -60,9 +60,13 @@ UPCOMING_ASSIGNMENTS=$(jq -r -s \
     ($now[0:19] + "Z" | fromdateiso8601) as $curr | 
     ($due - $curr) as $diff | 
     (if $diff <= 86400 then "\u001b[38;2;204;119;102m" elif $diff <= 172800 then "\u001b[38;2;215;153;33m" else "\u001b[38;2;142;158;114m" end) as $color | 
-    "\($color)\(.EndDateTime[0:19] + "Z" | fromdateiso8601 | localtime | strftime("%B %d at %I:%M %p"))\u001b[0m  |  \u001b[1;90m\(.Title)\u001b[0m"' \
+    (if $diff < 3600 then "Due in < 1 hour"
+     elif $diff < 86400 then "Due in \($diff / 3600 | floor) hours"
+     elif $diff < 172800 then "Due in 1 day"
+     else "Due in \($diff / 86400 | floor) days" end) as $countdown | 
+    "\($color)\($countdown)\u001b[0m  |  \u001b[1;38;2;235;219;178m\(.Title)\u001b[0m \u001b[38;2;150;150;150m(\(.EndDateTime[0:19] + "Z" | fromdateiso8601 | localtime | strftime("%B %d at %I:%M %p")))\u001b[0m"' \
     assignments.json)
-
+    
 echo -e "\n\033[1;38;2;214;180;131mUpcoming Assignments (Next 7 Days):\033[0m"
 echo -e "-------------------------------------"
 
