@@ -97,7 +97,7 @@ Before running the script, ensure you have **Git** and **jq** installed:
   ```
 
 ## Demo
-- [Demo Video]()
+- [Demo Video](https://youtu.be/aEzDtHzfuqo)
 
 ## Future Plans
 
